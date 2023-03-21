@@ -70,11 +70,6 @@ resource "random_string" "ingress" {
   }
 }
 
-locals {
-  dns_name_label = "${var.prefix}-ingress-${random_string.ingress.result}"
-  domain         = "${local.dns_name_label}.${data.azurerm_resource_group.default.location}.azurecontainer.io"
-}
-
 resource "random_string" "storage_suffix" {
   length  = 4
   lower   = true
