@@ -22,3 +22,7 @@ output "workbench_client_secret" {
 output "ingress_name" {
   value = azapi_resource.container_app.name
 }
+
+output "ingress_url" {
+  value = "https://${azapi_resource.container_app.name}.${azurerm_container_app_environment.env.default_domain}"
+}

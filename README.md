@@ -88,17 +88,12 @@ containing Cromwell.
 ## Using the Cromwell Installation
 ### Getting Deployment Information
 There are two pieces of information you need to start using your new Cromwell installation:
-* The ingress domain name
+* The ingress URL
 * The Azure App Registry credentials (ID and secret)
 
-To get the ingress domain name, run:
+To get the ingress URL, run:
 ```bash
-az containerapp show \
-  --subscription $(terraform output --raw subscriptionId) \
-  -g $(terraform output --raw resourceGroup) \
-  --name $(terraform output --raw ingress_name) \
-  -o json \
-  | jq -r '.properties.configuration.ingress.fqdn'
+terraform output --raw ingress_url
 ```
 
 To get the Azure App Registry client credentials, run:
@@ -122,20 +117,8 @@ ACCESS_TOKEN="$(
 )"
 ```
 
-You'll need to look up the domain name of the ingress route. This command assigns it to a variable:
-```bash
-CROMWELL_DOMAIN="$(
-az containerapp show \
-  --subscription $(terraform output --raw subscriptionId) \
-  -g $(terraform output --raw resourceGroup) \
-  --name $(terraform output --raw ingress_name) \
-  -o json \
-  | jq -r '.properties.configuration.ingress.fqdn'
-)"
-```
-
 Now you can send an authenticated request to the Cromwell API:
 ```bash
-curl "https://${CROMWELL_DOMAIN}/api/ga4gh/wes/v1/service-info" \
+curl "$(terraform output --raw ingress_url)/api/ga4gh/wes/v1/service-info" \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 ```
