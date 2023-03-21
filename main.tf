@@ -92,7 +92,7 @@ resource "azurerm_container_app_environment" "env" {
 
 resource "azuread_application" "workbench_client" {
   display_name     = "workbench-client-${random_string.ingress.result}"
-  identifier_uris  = ["api://workbench-client"]
+  identifier_uris  = ["api://workbench-client-${random_string.ingress.result}"]
   owners           = []
   sign_in_audience = "AzureADMyOrg"
 
