@@ -21,15 +21,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-
-  subscription_id = var.subscriptionId
-}
-
-provider "azapi" {
-}
-
 data azurerm_client_config "current" {}
 
 data "azurerm_resource_group" "default" {
@@ -51,11 +42,6 @@ resource "azurerm_subnet" "ingress" {
   virtual_network_name = data.azurerm_virtual_network.cromwell.name
   name                 = "ingress-subnet"
   address_prefixes     = [var.subnetIpMask]
-}
-
-data "azurerm_virtual_machine" "cromwell" {
-  resource_group_name = data.azurerm_resource_group.default.name
-  name                = var.virtualMachineName
 }
 
 resource "random_string" "ingress" {
@@ -150,7 +136,7 @@ resource "azapi_resource" "container_app" {
               "-c",
               templatefile("${path.module}/nginx-entrypoint.sh", {
                 nginx_conf : templatefile("${path.module}/reverse_proxy.conf", {
-                  ip_address : data.azurerm_virtual_machine.cromwell.private_ip_address,
+                  ip_address : var.cromwellIpAddress,
                   port : 8000
                 })
               })
