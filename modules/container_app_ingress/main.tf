@@ -21,7 +21,9 @@ terraform {
   }
 }
 
-data azurerm_client_config "current" {}
+data "azurerm_client_config" "current" {}
+
+data "azuread_client_config" "current" {}
 
 data "azurerm_resource_group" "default" {
   name = var.resourceGroupName
@@ -79,7 +81,7 @@ resource "azurerm_container_app_environment" "env" {
 resource "azuread_application" "workbench_client" {
   display_name     = "workbench-client-${random_string.ingress.result}"
   identifier_uris  = ["api://workbench-client-${random_string.ingress.result}"]
-  owners           = []
+  owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
   api {
