@@ -23,9 +23,11 @@ data "azurerm_virtual_machine" "cromwell" {
 module "ingress" {
   source = "../modules/container_app_ingress"
 
-  subscriptionId            = var.subscriptionId
-  resourceGroupName         = var.resourceGroupName
-  logAnalyticsWorkspaceName = var.logAnalyticsWorkspaceName
-  virtualNetworkName        = var.virtualNetworkName
-  cromwellIpAddress         = data.azurerm_virtual_machine.cromwell.private_ip_address
+  subscriptionId                         = var.subscriptionId
+  resourceGroupName                      = var.resourceGroupName
+  logAnalyticsWorkspaceName              = var.logAnalyticsWorkspaceName
+  virtualNetworkName                     = var.virtualNetworkName
+  cromwellIpAddress                      = data.azurerm_virtual_machine.cromwell.private_ip_address
+  storageAccountName                     = var.storageAccountName
+  cromwellExecutionsStorageContainerName = var.cromwellExecutionsStorageContainerName
 }

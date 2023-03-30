@@ -65,6 +65,7 @@ To run this script, you must have the following prepared:
         logAnalyticsWorkspaceName = "$LOG_ANALYTICS_WORKSPACE"
         virtualNetworkName        = "$VIRTUAL_NETWORK_NAME"
         kubernetesClusterName     = "$KUBERNETES_CLUSTER_NAME"
+        storageAccountName        = "$STORAGE_ACCOUNT_NAME"
         ```
    2. If you are using Cromwell in a virtual machine:
 
@@ -74,6 +75,7 @@ To run this script, you must have the following prepared:
         logAnalyticsWorkspaceName = "$LOG_ANALYTICS_WORKSPACE"
         virtualNetworkName        = "$VIRTUAL_NETWORK_NAME"
         virtualMachineName        = "$VIRTUAL_MACHINE_NAME"
+        storageAccountName        = "$STORAGE_ACCOUNT_NAME"
         ```
 
    Here is how you can find each of these values:
@@ -102,6 +104,11 @@ To run this script, you must have the following prepared:
      `$RESOURCE_GROUP` from the previous points:
      ```bash
      az aks list --subscription $SUBSCRIPTION_ID -g $RESOURCE_GROUP -o json | jq -r '.[].name'
+     ```
+   * `$STORAGE_ACCOUNT_NAME`: is generated for you by the Microsoft CromwellOnAzure script; consult the output fo the
+     script, or run this command using the `$SUBSCRIPTION_ID` and `$RESOURCE_GROUP` from the previous points:
+     ```bash
+     az storage account list --subscription $SUBSCRIPTION_ID -g $RESOURCE_GROUP -o json | jq -r '.[].name'
      ```
 4. Apply the configuration with your variable assignments:
 

@@ -15,7 +15,7 @@ output "workbench_client_id" {
 }
 
 output "workbench_client_secret" {
-  value     = azuread_application_password.secret.value
+  value     = azuread_service_principal_password.password.value
   sensitive = true
 }
 

@@ -92,8 +92,24 @@ resource "azuread_application" "workbench_client" {
   }
 }
 
-resource "azuread_application_password" "secret" {
-  application_object_id = azuread_application.workbench_client.object_id
+resource "azuread_service_principal" "workbench_client" {
+  application_id = azuread_application.workbench_client.application_id
+  owners           = [data.azuread_client_config.current.object_id]
+}
+
+data "azurerm_storage_container" "cromwell_executions" {
+  storage_account_name = var.storageAccountName
+  name                 = var.cromwellExecutionsStorageContainerName
+}
+
+resource "azurerm_role_assignment" "storage" {
+  scope                = data.azurerm_storage_container.cromwell_executions.resource_manager_id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azuread_service_principal.workbench_client.object_id
+}
+
+resource "azuread_service_principal_password" "password" {
+  service_principal_id = azuread_service_principal.workbench_client.object_id
 }
 
 resource "azapi_resource" "container_app" {

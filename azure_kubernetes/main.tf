@@ -83,9 +83,11 @@ resource "kubernetes_service" "ingress" {
 module "ingress" {
   source = "../modules/container_app_ingress"
 
-  subscriptionId            = var.subscriptionId
-  resourceGroupName         = var.resourceGroupName
-  logAnalyticsWorkspaceName = var.logAnalyticsWorkspaceName
-  virtualNetworkName        = var.virtualNetworkName
-  cromwellIpAddress         = kubernetes_service.ingress.status.0.load_balancer.0.ingress.0.ip
+  subscriptionId                         = var.subscriptionId
+  resourceGroupName                      = var.resourceGroupName
+  logAnalyticsWorkspaceName              = var.logAnalyticsWorkspaceName
+  virtualNetworkName                     = var.virtualNetworkName
+  cromwellIpAddress                      = kubernetes_service.ingress.status.0.load_balancer.0.ingress.0.ip
+  storageAccountName                     = var.storageAccountName
+  cromwellExecutionsStorageContainerName = var.cromwellExecutionsStorageContainerName
 }

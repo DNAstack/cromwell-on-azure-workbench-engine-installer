@@ -23,6 +23,16 @@ variable "cromwellIpAddress" {
   nullable = false
 }
 
+variable "storageAccountName" {
+  type     = string
+  nullable = false
+}
+
+variable "cromwellExecutionsStorageContainerName" {
+  type     = string
+  nullable = false
+}
+
 variable "subnetIpMask" {
   type    = string
   default = "10.1.2.0/23"
