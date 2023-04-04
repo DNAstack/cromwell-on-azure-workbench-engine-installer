@@ -2,7 +2,7 @@
 
 ## Overview
 The DNAstack Cromwell installer uses Microsoft's [Cromwell on Azure](https://github.com/microsoft/CromwellOnAzure)
-installer and Terraform to create an installation of Cromwell using Azure Virtual Machines, Container Apps,
+installer and [Terraform](TERRAFORM.md) to create an installation of Cromwell using Azure Virtual Machines, Container Apps,
 and Azure Batch, in Azure resource group.
 
 An Azure Container App is used as the ingress for all requests to Cromwell, and calling this service requires an
