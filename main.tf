@@ -70,7 +70,7 @@ resource "kubernetes_service" "ingress" {
 }
 
 module "ingress" {
-  source = "modules/container_app_ingress"
+  source = "./modules/container_app_ingress"
 
   subscriptionId                         = var.subscriptionId
   resourceGroupName                      = var.resourceGroupName
