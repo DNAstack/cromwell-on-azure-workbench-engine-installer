@@ -33,15 +33,6 @@ data "azurerm_virtual_network" "vnet" {
   name                = var.virtualNetworkName
 }
 
-resource "azurerm_role_assignment" "cluster_vnet_role" {
-  count = length(data.azurerm_kubernetes_cluster.cluster.kubelet_identity)
-
-  principal_id         = data.azurerm_kubernetes_cluster.cluster.kubelet_identity[count.index].object_id
-  scope                = data.azurerm_resource_group.group.id
-  role_definition_name = "Network Contributor"
-
-  skip_service_principal_aad_check = true
-}
 
 provider "kubernetes" {
   host = data.azurerm_kubernetes_cluster.cluster.kube_config.0.host
@@ -76,8 +67,6 @@ resource "kubernetes_service" "ingress" {
       target_port = 8000
     }
   }
-
-  depends_on = [azurerm_role_assignment.cluster_vnet_role]
 }
 
 module "ingress" {
