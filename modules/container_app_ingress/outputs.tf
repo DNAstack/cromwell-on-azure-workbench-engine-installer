@@ -11,7 +11,7 @@ output "resourceGroup" {
 }
 
 output "workbench_client_id" {
-  value = azuread_application.workbench_client.application_id
+  value = azuread_application.workbench_client.client_id
 }
 
 output "workbench_client_secret" {

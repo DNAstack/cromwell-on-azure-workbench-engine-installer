@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.47.0"
+      version = ">= 3.110.0"
     }
     azapi = {
       source  = "Azure/azapi"
@@ -12,7 +12,7 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "=2.36.0"
+      version = "~> 2.53.1"
     }
     random = {
       source  = "hashicorp/random"
@@ -93,7 +93,7 @@ resource "azuread_application" "workbench_client" {
 }
 
 resource "azuread_service_principal" "workbench_client" {
-  application_id = azuread_application.workbench_client.application_id
+  client_id        = azuread_application.workbench_client.client_id
   owners           = [data.azuread_client_config.current.object_id]
 }
 
@@ -196,17 +196,17 @@ resource "azapi_resource" "auth_config" {
             loginParameters        = []
           }
           registration = {
-            clientId = azuread_application.workbench_client.application_id
+            clientId = azuread_application.workbench_client.client_id
           }
           validation = {
             defaultAuthorizationPolicy = {
               allowedApplications = [
-                azuread_application.workbench_client.application_id
+                azuread_application.workbench_client.client_id
               ]
             }
             jwtClaimChecks = {
               allowedClientApplications = [
-                azuread_application.workbench_client.application_id
+                azuread_application.workbench_client.client_id
               ]
             }
           }
