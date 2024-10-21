@@ -10,6 +10,10 @@ output "resourceGroup" {
   value = var.resourceGroupName
 }
 
+output "storageAccount" {
+  value = var.storageAccountName
+}
+
 output "workbench_client_id" {
   value = module.ingress.workbench_client_id
 }
