@@ -108,6 +108,20 @@ resource "azurerm_role_assignment" "storage" {
   principal_id         = azuread_service_principal.workbench_client.object_id
 }
 
+data "azurerm_storage_account" "additional" {
+  for_each            = { for bucket in var.additional_buckets : bucket.name => bucket }
+  name                = each.value.name
+  resource_group_name = each.value.resource_group
+}
+
+resource "azurerm_role_assignment" "additional_storage" {
+  for_each = { for bucket in var.additional_buckets : bucket.name => bucket }
+
+  scope                = data.azurerm_storage_account.additional[each.key].id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azuread_service_principal.workbench_client.object_id
+}
+
 resource "azuread_service_principal_password" "password" {
   service_principal_id = azuread_service_principal.workbench_client.object_id
 }

@@ -79,4 +79,5 @@ module "ingress" {
   cromwellIpAddress                      = kubernetes_service.ingress.status.0.load_balancer.0.ingress.0.ip
   storageAccountName                     = var.storageAccountName
   cromwellExecutionsStorageContainerName = var.cromwellExecutionsStorageContainerName
+  additional_buckets                     = var.additional_buckets
 }
