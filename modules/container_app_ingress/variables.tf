@@ -43,3 +43,13 @@ variable "prefix" {
   nullable = false
   default  = "coa"
 }
+
+variable "additional_buckets" {
+  description = "Additional Azure storage accounts to add to the policy"
+  type = list(object({
+    name           = string
+    resource_group = string
+  }))
+  default = []
+  nullable = true
+}
