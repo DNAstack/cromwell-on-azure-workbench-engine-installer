@@ -90,3 +90,9 @@ variable "additional_buckets" {
   default = []
   nullable = true
 }
+
+variable "resourceProviders" {
+  type = list(string)
+  default = ["Microsoft.ServiceBus", "Microsoft.KeyVault"]
+  description = "A list of names of the Azure Resource Providers to register."
+}
