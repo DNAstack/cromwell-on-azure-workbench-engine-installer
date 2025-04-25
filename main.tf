@@ -71,7 +71,7 @@ resource "kubernetes_service" "ingress" {
 
 resource "azurerm_resource_provider_registration" "resource_providers" {
   for_each = toset(var.resourceProviders)
-  name = each.value.name
+  name = each.value
 }
 
 module "ingress" {
