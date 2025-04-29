@@ -23,11 +23,6 @@ data "azurerm_resource_group" "group" {
   name = var.resourceGroupName
 }
 
-data "azurerm_kubernetes_cluster" "cluster" {
-  resource_group_name = var.resourceGroupName
-  name                = var.kubernetesClusterName
-}
-
 data "azurerm_virtual_network" "vnet" {
   resource_group_name = var.resourceGroupName
   name                = var.virtualNetworkName
