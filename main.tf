@@ -23,23 +23,9 @@ data "azurerm_resource_group" "group" {
   name = var.resourceGroupName
 }
 
-data "azurerm_kubernetes_cluster" "cluster" {
-  resource_group_name = var.resourceGroupName
-  name                = var.kubernetesClusterName
-}
-
 data "azurerm_virtual_network" "vnet" {
   resource_group_name = var.resourceGroupName
   name                = var.virtualNetworkName
-}
-
-
-provider "kubernetes" {
-  host = data.azurerm_kubernetes_cluster.cluster.kube_config.0.host
-
-  client_certificate     = base64decode(data.azurerm_kubernetes_cluster.cluster.kube_config.0.client_certificate)
-  client_key             = base64decode(data.azurerm_kubernetes_cluster.cluster.kube_config.0.client_key)
-  cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.cluster.kube_config.0.cluster_ca_certificate)
 }
 
 resource "random_string" "namespace_suffix" {
