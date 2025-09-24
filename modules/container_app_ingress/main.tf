@@ -176,7 +176,7 @@ resource "azapi_resource" "container_app" {
           }
         ]
         scale = {
-          minReplicas = 0
+          minReplicas = 1
           maxReplicas = 1
         }
       }
