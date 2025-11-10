@@ -13,12 +13,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-  skip_provider_registration = true
-  subscription_id = var.subscriptionId
-}
-
 data "azurerm_resource_group" "group" {
   name = var.resourceGroupName
 }
