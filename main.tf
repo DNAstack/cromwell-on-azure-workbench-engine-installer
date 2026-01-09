@@ -27,7 +27,7 @@ resource "random_string" "namespace_suffix" {
   special = false
 }
 
-resource "kubernetes_service" "ingress" {
+resource "kubernetes_service_v1" "ingress" {
   metadata {
     namespace     = var.kubernetesNamespace
     generate_name = "ingress"
@@ -49,11 +49,6 @@ resource "kubernetes_service" "ingress" {
   }
 }
 
-resource "azurerm_resource_provider_registration" "resource_providers" {
-  for_each = toset(var.resourceProviders)
-  name = each.value
-}
-
 module "ingress" {
   source = "./modules/container_app_ingress"
 
@@ -61,8 +56,9 @@ module "ingress" {
   resourceGroupName                      = var.resourceGroupName
   logAnalyticsWorkspaceName              = var.logAnalyticsWorkspaceName
   virtualNetworkName                     = var.virtualNetworkName
-  cromwellIpAddress                      = kubernetes_service.ingress.status.0.load_balancer.0.ingress.0.ip
+  cromwellIpAddress                      = kubernetes_service_v1.ingress.status.0.load_balancer.0.ingress.0.ip
   storageAccountName                     = var.storageAccountName
   cromwellExecutionsStorageContainerName = var.cromwellExecutionsStorageContainerName
   additional_buckets                     = var.additional_buckets
+  required_tags                          = var.required_tags
 }

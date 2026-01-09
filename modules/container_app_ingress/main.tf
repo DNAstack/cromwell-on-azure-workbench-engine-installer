@@ -8,7 +8,7 @@ terraform {
     }
     azapi = {
       source  = "Azure/azapi"
-      version = "=1.4.0"
+      version = "~> 1.15.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -76,6 +76,7 @@ resource "azurerm_container_app_environment" "env" {
   resource_group_name        = data.azurerm_resource_group.default.name
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.cromwell.id
   infrastructure_subnet_id   = azurerm_subnet.ingress.id
+  tags                       = var.required_tags
 }
 
 resource "azuread_application" "workbench_client" {
@@ -133,7 +134,7 @@ resource "azapi_resource" "container_app" {
   name      = "${var.prefix}-ingress-${random_string.ingress.result}"
 
   body = jsonencode({
-    properties : {
+    properties = {
       managedEnvironmentId = azurerm_container_app_environment.env.id
 
       configuration = {
@@ -167,9 +168,9 @@ resource "azapi_resource" "container_app" {
               "bash",
               "-c",
               templatefile("${path.module}/nginx-entrypoint.sh", {
-                nginx_conf : templatefile("${path.module}/reverse_proxy.conf", {
-                  ip_address : var.cromwellIpAddress,
-                  port : 8000
+                nginx_conf = templatefile("${path.module}/reverse_proxy.conf", {
+                  ip_address = var.cromwellIpAddress
+                  port       = 8000
                 })
               })
             ]
@@ -205,7 +206,7 @@ resource "azapi_resource" "auth_config" {
       identityProviders = {
         azureActiveDirectory = {
           enabled = true
-          login   = {
+          login = {
             disableWWWAuthenticate = false
             loginParameters        = []
           }

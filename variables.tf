@@ -91,8 +91,7 @@ variable "additional_buckets" {
   nullable = true
 }
 
-variable "resourceProviders" {
-  type = list(string)
-  default = ["Microsoft.ServiceBus", "Microsoft.KeyVault"]
-  description = "A list of names of the Azure Resource Providers to register."
+variable "required_tags" {
+  description = "Tag to apply to resources created in this account"
+  type        = map(string)
 }

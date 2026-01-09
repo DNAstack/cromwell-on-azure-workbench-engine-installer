@@ -53,3 +53,8 @@ variable "additional_buckets" {
   default = []
   nullable = true
 }
+
+variable "required_tags" {
+  description = "Tags to apply to resources created in this module"
+  type        = map(string)
+}
