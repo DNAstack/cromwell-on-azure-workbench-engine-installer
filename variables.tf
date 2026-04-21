@@ -14,9 +14,10 @@ variable "resourceGroupName" {
 
 variable "logAnalyticsWorkspaceName" {
   type     = string
-  nullable = false
+  nullable = true
+  default  = null
 
-  description = "The name of the Log Analytics Workspace created by the CromwellOnAzure script."
+  description = "The name of the Log Analytics Workspace created by the CromwellOnAzure script. Leave null to skip wiring Azure Container App logs into a Log Analytics workspace."
 }
 
 variable "virtualNetworkName" {

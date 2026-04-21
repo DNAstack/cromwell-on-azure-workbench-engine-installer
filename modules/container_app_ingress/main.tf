@@ -30,6 +30,7 @@ data "azurerm_resource_group" "default" {
 }
 
 data "azurerm_log_analytics_workspace" "cromwell" {
+  count               = var.logAnalyticsWorkspaceName == null ? 0 : 1
   name                = var.logAnalyticsWorkspaceName
   resource_group_name = var.resourceGroupName
 }
@@ -74,7 +75,7 @@ resource "azurerm_container_app_environment" "env" {
   name                       = "${var.prefix}-ingress-app-env-${random_string.ingress.result}"
   location                   = data.azurerm_resource_group.default.location
   resource_group_name        = data.azurerm_resource_group.default.name
-  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.cromwell.id
+  log_analytics_workspace_id = try(data.azurerm_log_analytics_workspace.cromwell[0].id, null)
   infrastructure_subnet_id   = azurerm_subnet.ingress.id
   tags                       = var.required_tags
 }

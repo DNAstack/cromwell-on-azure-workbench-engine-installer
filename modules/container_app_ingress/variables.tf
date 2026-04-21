@@ -10,7 +10,8 @@ variable "resourceGroupName" {
 
 variable "logAnalyticsWorkspaceName" {
   type     = string
-  nullable = false
+  nullable = true
+  default  = null
 }
 
 variable "virtualNetworkName" {
